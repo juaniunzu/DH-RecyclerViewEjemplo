@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/celdaItemImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/celdaItemTextViewNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="nombre del item"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/celdaItemTextViewPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="precio"
+            android:textColor="#3F51B5"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/celdaItemTextViewDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="descripcion"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
