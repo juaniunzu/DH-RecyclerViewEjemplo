@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemsAdapter.ItemsAdapterListener {
 
     private RecyclerView recyclerView;
 
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         //creo la lista de items que usare como parametro para crear el adaptador
         List<Item> listaDeItems = listaItems();
 
-        //creo el adaptador
-        ItemsAdapter itemsAdapter = new ItemsAdapter(listaDeItems);
+        //creo el adaptador, paso this (esta misma actividad) como parametro, ya que es "escuchadora" dado la interfaz q implementa
+        ItemsAdapter itemsAdapter = new ItemsAdapter(listaDeItems, this);
 
         //creo el layout manager porque si no toda esta verga no anda, el reverseLayout es por si queremos que la lista se muestre del final para adelante
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(itemsAdapter);
-
 
 
     }
@@ -67,4 +67,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //detallar el comportamiento de la actividad cuando se haga click a la celda
+    @Override
+    public void hicieronClick(Item unItem) {
+
+        //creo intent
+        Intent mainADetail = new Intent(this, DetailActivity.class);
+
+        //creo bundle
+        Bundle bundle = new Bundle();
+
+        //le agrego los datos que quiero llevar
+        bundle.putString(DetailActivity.NOMBRE_ITEM, unItem.getNombre());
+        bundle.putString(DetailActivity.DESCRIPCION_ITEM, unItem.getDescripcion());
+        bundle.putInt(DetailActivity.IMAGEN_ITEM, unItem.getImagen());
+
+        //cargo el bundle en el intent
+        mainADetail.putExtras(bundle);
+
+        //start
+        startActivity(mainADetail);
+
+
+    }
 }

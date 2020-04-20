@@ -16,9 +16,13 @@ import java.util.List;
 public class ItemsAdapter extends RecyclerView.Adapter {
 
     private List<Item> listaDeItems;
+    //le agrego parametro listener que sera necesario para que la instanciacion
+    //tome como parametro la clase que escuche el click
+    private ItemsAdapterListener listener;
 
-    public ItemsAdapter(List<Item> listaDeItems) {
+    public ItemsAdapter(List<Item> listaDeItems, ItemsAdapterListener listener) {
         this.listaDeItems = listaDeItems;
+        this.listener = listener;
     }
 
     //crea la celda del layout
@@ -69,8 +73,7 @@ public class ItemsAdapter extends RecyclerView.Adapter {
         private TextView celdaItemTextViewNombre;
         private TextView celdaItemTextViewPrecio;
         private TextView celdaItemTextViewDescripcion;
-        private Button celdaItemButtonComprar;
-        private TextView carritoContador;
+
 
         //el constructor toma como parametro un elemento View.
         public ItemViewHolder(@NonNull View itemView) {
@@ -81,10 +84,24 @@ public class ItemsAdapter extends RecyclerView.Adapter {
             celdaItemTextViewNombre = itemView.findViewById(R.id.celdaItemTextViewNombre);
             celdaItemTextViewPrecio = itemView.findViewById(R.id.celdaItemTextViewPrecio);
             celdaItemTextViewDescripcion = itemView.findViewById(R.id.celdaItemTextViewDescripcion);
-            celdaItemButtonComprar = itemView.findViewById(R.id.celdaItemButtonComprar);
-            carritoContador = itemView.findViewById(R.id.celdaItemLinearLayoutTextViewCarrito);
 
-            // TODO: 17/04/2020 programar el boton y el contador
+            //creo el onClickListener de la celda
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //tomo la posicion donde se esta haciendo click
+                    Integer itemPosition = getAdapterPosition();
+
+                    //uso la posicion para tomar el item donde se esta haciendo click y lo guardo en variable local
+                    Item item = listaDeItems.get(itemPosition);
+
+                    //corro el hicieronClick() que es parte del aributo listener,
+                    //le paso como parametro el item tomado arriba
+                    listener.hicieronClick(item);
+
+                }
+            });
 
         }
 
@@ -95,5 +112,11 @@ public class ItemsAdapter extends RecyclerView.Adapter {
             celdaItemTextViewPrecio.setText(unItem.getPrecio());
             celdaItemTextViewDescripcion.setText(unItem.getDescripcion());
         }
+    }
+
+    //creo interfaz que tendra q implementar cada actividad que contenga celdas clickeables.
+    //cada una sobreescribira el metodo segun a que actividad se ira
+    public interface ItemsAdapterListener{
+        void hicieronClick(Item unItem);
     }
 }
